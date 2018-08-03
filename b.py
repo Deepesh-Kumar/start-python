@@ -1,15 +1,35 @@
-import re
+import pexpect
+import sys
 
-str = 'purple alice-b@google.com, blah monkey bob@abc.com blah dishwasher'
-match = re.findall(r'([\w\.-]+)@([\w\.-]+)', str)
-print match
-print match[0]
-print match[1]
-
+x = raw_input('Enter IP: ')
+y = raw_input('Enter username: ')
+z = raw_input('Enter password: ')
 
 
 
+try:
+	c = pexpect.spawn('ssh %s@%s' %(y,x))
+	c.timeout = 4
+	c.expect("password: ")
+	c.logfile = sys.stdout
+except pexpect.TIMEOUT:
+	raise Exception("Fail")
 
+c.sendline(z)
+c.expect("vManage1#")
+c.sendline("show software")
+c.expect("# ")
+c.sendline("show version")
+c.expect("# ")
+c.sendline("show control valid-vedges")
+c.expect("# ")
+c.sendline("request execute ssh admin@1.1.1.4 ")
+c.timeout = 4
+c.expect("password: ")
+c.sendline("admin")
+c.expect("# ")
+c.sendline('show version ')
+c.expect("# ")
 
 
 
