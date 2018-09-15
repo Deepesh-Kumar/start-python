@@ -1,23 +1,17 @@
-import json
-import requests
-from requests.auth import HTTPBasicAuth
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-s = requests.session()
-IP = raw_input('Enter the IP: ')
-username = raw_input('Enter the username:  ')
-password = raw_input('Enter the password:  ')
-uri = 'https://' + IP + ':8443/dataservice/device'
-r = s.get(uri, auth=HTTPBasicAuth(username, password), verify=False)
-a = r.json()
-#print type(a['data'])
-
-for i in a['data']:
-	if i['personality'] == 'vedge':
-		print i['version'],i['local-system-ip'],i['host-name']
-#b = json.loads(a)
-#print b
-
+import re
+b = open('test.txt', "r")
+d = []
+#c = []
+for i in b:
+	c =  i.split()
+	#print c[0],c[4],c[6],c[7]
+	d.append(c[8])
+for j in d:
+	if j != '200':
+		print c[0],c[3],c[4],c[6],c[7]
+	#c = re.compile(r'\d+\.\d+\.\d+\.\d+\ \-*\ \-*\ \[\d+')
+	#d = re.match(c,i)
+	#print d.group()
 
 
 
